@@ -54,7 +54,7 @@
 #define ERR_HANDLE_PROC_BREAK(ret,proc,cond,errdo) ret = (proc); \
   if ( (cond) ) { \
     (errdo); \
-    break;
+    break; \
   }
 
 /**
@@ -81,7 +81,7 @@
 #define ERR_HANDLE_PROC_BREAK_WITH_ELSE(ret,proc,cond,errdo) ret = (proc); \
   if ( (cond) ) { \
     (errdo); \
-    break;
+    break; \
   } else
 
 //////// Functions ////////

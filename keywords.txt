@@ -1,0 +1,46 @@
+#######################################
+# Syntax Coloring Map for commonf
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+commonf	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+arraySize	KEYWORD2
+openDrain	KEYWORD2
+togglePin	KEYWORD2
+blinkLed	KEYWORD2
+waitFor	KEYWORD2
+SerialWaitFor	KEYWORD2
+_Wait	KEYWORD2
+HexByte	KEYWORD2
+printHexByte	KEYWORD2
+_HEX	KEYWORD2
+HexWord	KEYWORD2
+printHexWord	KEYWORD2
+_HEX16	KEYWORD2
+HexDWord	KEYWORD2
+printHexDWord	KEYWORD2
+printHex	KEYWORD2
+_HEX32	KEYWORD2
+HexBuffer	KEYWORD2
+printHexBuffer	KEYWORD2
+_HEXbuf	KEYWORD2
+HexBufferArr	KEYWORD2
+printHexBufferArr	KEYWORD2
+_HEXarr	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+ERR_HANDLE_PROC	LITERAL1
+ERR_HANDLE_PROC_BREAK	LITERAL1
+ERR_HANDLE_PROC_WITH_ELSE	LITERAL1
+ERR_HANDLE_PROC_BREAK_WITH_ELSE	LITERAL1

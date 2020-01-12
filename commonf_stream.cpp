@@ -22,14 +22,29 @@
 
 #include <commonf.h>
 
+Stream& flushIt(Stream &obj) {
+    char c;
+    delay(50);
+    while(obj.available() != 0) {
+        c = (char) obj.read(); // Discarding
+        (void)c;
+    }
+    return obj;
+}
+
 Stream& waitFor(Stream &obj, char c) {
     char b;
-    obj.print('.');
+    flushIt(obj);
     do {
         while(obj.available() == 0) yield(); 
         b = (char) obj.read();
     } while(b != c);
-    return obj;
+    return flushIt(obj);
+}
+
+Stream& waitOnAny(Stream &obj) {
+    while(obj.available() == 0) yield(); 
+    return flushIt(obj);
 }
 
 Stream& HexByte(Stream &obj, byte data) {

@@ -155,13 +155,34 @@ inline Stream& operator <<(Stream &obj, T arg)
 { obj.print(arg); return obj; }
 
 /**
+ * Stream FlushIt function is used to clean up the Input buffer
+ * correctly before engaging in further reception on the Stream.
+ * 
+ * @note This function "Blocks" till whole receive buffer is cleaned
+ * 
+ * @note This function introduces a 50mS blockout Delay for Buffer 
+ *      reception to complete.
+ * 
+ * @warning All Receive buffer content in stream is lost after executing 
+ *        this function
+ * 
+ * @param obj [ref] Stream Object to be waited upon and polled from
+ * 
+ * @return Object reference from @ref obj
+ */
+Stream& flushIt(Stream &obj);
+#define SerialFlush() flushIt(Serial)
+#define _Flush() flushIt(Serial)
+
+/**
  * Stream WaitFor function is used to block execution till the required 
  * input is received from the passed stream reference.
  * 
  * @note This function "Blocks" till the particular @ref c is received
  * 
- * @note This functional additionally prints a '.' dot before going into
- *        wait loop.
+ * @note This function would execute the @ref flushIt at the beginning
+ *        and at the end to make sure that the receive buffer remains 
+ *        clear.
  * 
  * @param obj [ref] Stream Object to be waited upon and polled from
  * @param c [in] Charcater which is matched for the received item
@@ -171,6 +192,25 @@ inline Stream& operator <<(Stream &obj, T arg)
 Stream& waitFor(Stream &obj, char c);
 #define SerialWaitFor(C) waitFor(Serial, (char)C)
 #define _Wait(C) waitFor(Serial, (char)C)
+
+/**
+ * Stream WaitOnAny function is used to block execution till 
+ * some thing is received on the stream.
+ * 
+ * @note This function "Blocks" till the any thing is received
+ *     on the stream
+ * 
+ * @note This function would execute the @ref flushIt at the 
+ *      end only.
+ * 
+ * @param obj [ref] Stream Object to be waited upon and polled from
+ * 
+ * @return Object reference from @ref obj
+ */
+Stream& waitOnAny(Stream &obj);
+#define SerialWaitOnAny() waitOnAny(Serial)
+#define _WaitAny() waitOnAny(Serial)
+
 /**
  * Stream HexByte function is used to correctly represent zero based
  * hexadecimal numbers. This function works for `byte` or `uint8_t` type
@@ -288,5 +328,45 @@ Stream& HexBufferArr(Stream &obj, char * buf, size_t size);
  */ 
 inline Stream& operator <<(Stream &obj, Stream& arg) 
 { return obj; }
+
+/**
+ * Custom Type Enum for End of Line insersion in Stream chain
+ */
+enum _EndLineCode {endl, Endl, nl, Nl};
+
+/**
+ * Generic Template operator overloading for `<<` Operator
+ * for End of Line codes to be inserted in Stream operations.
+ * Basically it helps to write code like:
+ *      Serial << "Hello!" << endl;
+ * 
+ * @param obj [ref] LHS for the `>>` Operator is a Stream class object
+ * @param arg [in] RHS for the `>>` Operator is a End of Line Code @ref _EndLineCode
+ * 
+ * @return Object reference from @ref obj
+ */
+inline Stream& operator <<(Stream &obj, _EndLineCode arg) 
+{ obj.println(); return obj; }
+
+/**
+ * Generic Template operator overloading for `,` Operator
+ * to help combining of arguments.
+ * Basically it helps to write code like:
+ *      Serial << i, j, k;
+ * 
+ * @note This function directly prints complete each argument @ref arg
+ *        through the stream
+ * 
+ * @note This function would additionally print a separator ' ' space
+ *        before each argument is printed
+ * 
+ * @param obj [ref] LHS for the `>>` Operator is a Stream class object
+ * @param arg [template] RHS for the `>>` Operator is a Template type argument
+ * 
+ * @return Object reference from @ref obj
+ */
+template<class T> 
+inline Stream& operator ,(Stream &obj, T arg) 
+{ obj.print(' '); obj.print(arg); return obj; }
 
 #endif /* _COMMONF_H_ */
